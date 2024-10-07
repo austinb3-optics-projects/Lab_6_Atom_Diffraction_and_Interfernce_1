@@ -34,13 +34,12 @@ z_ad = 64e-2;                       % [m]
 source_slit = 2e-6;             % [um]
 %%%%%%%
 % the detector size might be 10periods * 8um/period = 80um
-detector_size = 80e-6;          % half distance is 40um.
+detector_size = 100e-6;          % half distance is 40um.
 lam_dB = 1.03e-10;             % [Angstrom]deBroigle wavelength
 m_n = 1.675e-27;                % [kg] Neutron mass
-d = 8e-6;                     % periodicity
+d = 6.55e-6;                     % periodicity
 diffract_slit = 1e-6;        % [um] corresponds to a duty cycle of 10%
 slit_separation = 8e-6;     % center to center separation of the two slits.
-fill_factor = 50;
 
 %% Propagation vectors, grating setup
 % In your simulation, you will calculate probability density distributions
@@ -71,11 +70,7 @@ rect1 = @(x) double(abs(x) <= diffract_slit/2);  % This creates a rect function 
 dslit = rect1(xn - slit_separation/2) + rect1(xn + slit_separation/2);
 % figure;
 % plot(xn,dslit,'LineWidth',1.5);
-x_grating = (2*pi/d).*xn;
-% 
-% % grating vector. The amplitude scaling and shifting by 0.5 is to ensure
-% % that the wavefrom is between 0 and 1 with an amplitude of 1.
-gv = 0.5.*square(x_grating,fill_factor) + 0.5;
+
 
 
 %% Spherical wave calculations
@@ -97,7 +92,6 @@ for zi = 1:length(z)
     Psi0spherical_x(zi,:) = iftptox(Psi0spherical_p(zi,:),dp,hbar(1));
 end
 
-Psi0 = gv.*Psi0spherical_x(end,:);
 ap = (xn >= -detector_size/2 & xn <= detector_size/2);
 x_limited = xn(ap);
 figure;
@@ -110,9 +104,8 @@ colormap turbo;
 colorbar;
 
 % wavefunction at detector plane
-% THIS ISN'T QUITE CORRECT YET. ASK QUESTIONS.
 figure;
-plot(xn,abs(Psi0).^2,'LineWidth',1);
+plot(xn,abs(Psi0spherical_x(end,:)).^2,'LineWidth',1);
 xlabel('x_n');
 ylabel('$|\Psi(1,t)|^2$',Interpreter='latex');
 title('Wavefunction at detector plane (spherical)');
