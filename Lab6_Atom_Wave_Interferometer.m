@@ -8,7 +8,7 @@ hbar = [1.044e-34,1];
 %% grid setup
 
 % Number of grid points need 2^16 or 2^17 to resolve the grating structure
-N = 2^17;
+N = 2^18;
 % maximum spatial grid extent
 xmax = 10e-3;        % size of grid is 100 times expected maximum.
 % spatial grid increment
@@ -177,6 +177,15 @@ ylabel('x');
 title('$|\Psi(z,t)|^2$ : plane wave',Interpreter='latex');
 colormap turbo;
 colorbar;
+
+figure;
+plot(xn,abs(Psi(end,:)).^2,'LineWidth',1.5);
+xlabel('x_n');
+ylabel('$|\Psi(1,t)|^2$',Interpreter='latex');
+title('Wavefunction at talbot distance (plane)');
+set(gca,'FontSize',15);
+xlim([-detector_size/2,detector_size/2]);
+
 
 %% Questions
 

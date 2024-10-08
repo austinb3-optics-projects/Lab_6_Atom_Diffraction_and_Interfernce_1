@@ -8,7 +8,7 @@ hbar = [1.044e-34,1];
 %% grid setup
 
 % Number of grid points 
-N = 2^14;
+N = 2^17;
 % maximum spatial grid extent
 xmax = 8e-3;        % size of grid is 100 times expected maximum.
 % spatial grid increment
